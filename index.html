@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Note Taking Tool</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Meeting Notes</h1>
+
+    <!-- Recorder Section -->
+    <div class="recorder-card">
+      <div class="timer" id="timer">00:00</div>
+      <div class="status" id="status">Ready to record</div>
+
+      <div class="controls">
+        <button id="recordBtn" class="btn record">Record</button>
+        <button id="stopBtn" class="btn stop" disabled>Stop</button>
+      </div>
+    </div>
+
+    <!-- Results Section (hidden until transcription is ready) -->
+    <div class="results-card" id="resultsCard" style="display: none;">
+      <input type="text" id="titleInput" placeholder="Meeting title..." />
+      
+      <h3>Summary</h3>
+      <div id="summary" class="content-box"></div>
+
+      <h3>Action Items</h3>
+      <div id="actions" class="content-box"></div>
+
+      <h3>Transcript</h3>
+      <div id="transcript" class="content-box transcript"></div>
+
+      <button id="saveBtn" class="btn save">Save to Google Doc</button>
+    </div>
+
+    <!-- Past Meetings List -->
+    <div class="meetings-list">
+      <h2>Past Meetings</h2>
+      <div id="meetingsList">
+        <p class="empty">No meetings yet</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
