@@ -3,6 +3,5 @@ uvicorn[standard]
 python-multipart
 faster-whisper
 python-dotenv
-google-api-python-client
-google-auth-httplib2
-google-auth-oauthlib
+requests
+pydantic
