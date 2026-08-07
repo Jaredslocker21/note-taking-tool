@@ -20,8 +20,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Correct path to project root
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+# Now main.py is in the root
+ROOT = os.path.abspath(os.path.dirname(__file__))
 STATIC_DIR = os.path.join(ROOT, "static")
 
 print("ROOT folder is:", ROOT)
@@ -77,7 +77,6 @@ async def transcribe(audio: UploadFile = File(...), title: str = Form("Untitled 
         tmp_path = tmp.name
 
     try:
-        # Transcribe with Whisper
         segments, info = model.transcribe(tmp_path, beam_size=5)
         transcript_parts = [segment.text.strip() for segment in segments]
         full_transcript = " ".join(transcript_parts)
@@ -85,7 +84,6 @@ async def transcribe(audio: UploadFile = File(...), title: str = Form("Untitled 
         if not full_transcript:
             full_transcript = "(No speech detected)"
 
-        # Generate Summary + Action Items
         prompt = f"""Transcript:
 {full_transcript}
 
@@ -109,7 +107,6 @@ ACTION ITEMS:
         actions = "- No clear action items found"
 
         if llm_response:
-            # Extract SUMMARY
             if "SUMMARY:" in llm_response.upper():
                 try:
                     after = llm_response.split("SUMMARY:")[1]
@@ -118,7 +115,6 @@ ACTION ITEMS:
                 except:
                     pass
 
-            # Extract ACTION ITEMS
             if "ACTION ITEMS:" in llm_response.upper() or "ACTION ITEM" in llm_response.upper():
                 try:
                     actions_part = llm_response.split("ACTION ITEMS:")[-1]
@@ -128,7 +124,6 @@ ACTION ITEMS:
                     if lines:
                         actions = "\n".join(lines)
 
-            # Final cleanup
             if summary.lower().startswith("meeting transcript") or len(summary) < 20:
                 summary = full_transcript[:180] + "..." if len(full_transcript) > 180 else full_transcript
 
