@@ -2,19 +2,18 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Force completely new layer (no cache)
+# Completely different RUN command to kill the cache
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    ffmpeg \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    ca-certificates \
     curl \
+    ffmpeg \
     git \
     build-essential \
     zstd \
-    ca-certificates \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
 
-# Install Ollama
 RUN curl -fsSL https://ollama.com/install.sh | sh
 
 COPY requirements.txt .
